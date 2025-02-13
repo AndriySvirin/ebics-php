@@ -49,6 +49,8 @@ abstract class RequestFactory
     protected UserSignatureHandler $userSignatureHandler;
     protected CryptService $cryptService;
     protected ZipService $zipService;
+    protected int $orderIdOffset = 0;
+
 
     public function __construct(
         Bank $bank,
@@ -1018,6 +1020,16 @@ abstract class RequestFactory
         }
 
         return $requestContext;
+    }
+
+    public function setOrderIdOffset(int $orderIdOffset): void
+    {
+        $this->orderIdOffset = $orderIdOffset;
+    }
+
+    public function getOrderIdOffset(): int
+    {
+        return $this->orderIdOffset;
     }
 
     abstract public function prepareDownloadContext(RequestContext $requestContext = null): RequestContext;
