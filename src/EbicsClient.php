@@ -1436,4 +1436,14 @@ final class EbicsClient implements EbicsClientInterface
 
         $this->keyring->setPassword($newPassword);
     }
+
+    public function setOrderIdOffset(int $offset): void
+    {
+        $this->requestFactory->setOrderIdOffset($offset);
+    }
+
+    public function getOrderIdOffset(): int
+    {
+        return $this->requestFactory->getOrderIdOffset();
+    }
 }

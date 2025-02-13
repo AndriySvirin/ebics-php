@@ -450,16 +450,29 @@ final class CryptService
     }
 
     /**
-     * Generate order id from A000 to ZZZZ
+     * Generate order id from A000 to ZZZZ with offset.
      * Unique value per partner for customer.
      *
      * @param string $partnerId
+     * @param int $offset
      *
      * @return string
      */
-    public function generateOrderId(string $partnerId): string
+    public function generateOrderId(string $partnerId, int $offset = 0): string
     {
         $hash = $this->hash($partnerId, 'crc32', false);
+
+        $hashToDesc = hexdec($hash);
+
+        $hasDeschWithOffset = $hashToDesc + $offset;
+
+        if ($hasDeschWithOffset > 0xffffffff) {
+            $hasDeschWithOffset = $hasDeschWithOffset - 0xffffffff;
+        }
+
+        $hash = dechex($hasDeschWithOffset);
+
+        $hash = str_pad($hash, 8, '0', STR_PAD_LEFT);
 
         $decs = str_split($hash, 2);
 
@@ -480,7 +493,7 @@ final class CryptService
                 continue;
             }
 
-            $chrCode = $dec % $letDecRng;
+            $chrCode = ($dec + $offset) % $letDecRng;
 
             if ($chrCode > $letRng) {
                 $chrs[] = $chrCode - $letRng;
