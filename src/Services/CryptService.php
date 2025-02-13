@@ -493,7 +493,7 @@ final class CryptService
                 continue;
             }
 
-            $chrCode = ($dec + $offset) % $letDecRng;
+            $chrCode = $dec % $letDecRng;
 
             if ($chrCode > $letRng) {
                 $chrs[] = $chrCode - $letRng;
