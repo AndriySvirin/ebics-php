@@ -44,7 +44,7 @@ final class RequestFactoryV24 extends RequestFactoryV2
                 $orderAttribute = OrderDetailsBuilder::ORDER_ATTRIBUTE_DZHNN;
         }
 
-        $orderId = $this->cryptService->generateOrderId($this->user->getPartnerId());
+        $orderId = $this->cryptService->generateOrderId($this->user->getPartnerId(), $this->getOrderIdOffset());
 
         return $orderDetailsBuilder
             ->addOrderType($orderType)
